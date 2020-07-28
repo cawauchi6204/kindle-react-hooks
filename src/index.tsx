@@ -2,11 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import Toppage from './pages/topPage'
 import * as serviceWorker from './serviceWorker';
+import TopPage from './pages/topPage';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <TopPage />
   </React.StrictMode>,
   document.getElementById('root')
 );
