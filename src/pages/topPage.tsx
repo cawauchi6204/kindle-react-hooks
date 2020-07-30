@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import DownloadPage from "./downloadPage";
 import TopHeader from "../components/topPage/topHeader"
 import TopMain from "../components/topPage/topMain"
 import ResultPage from './resultPage';
@@ -19,6 +20,9 @@ const TopPage: FC = () => {
                 </Route>
                 <Route exact path="/search/:keyword">
                     <ResultPage />
+                </Route>
+                <Route path="/download/:keyword" exact>
+                    <DownloadPage />
                 </Route>
             </Switch>
         </Router>

@@ -1,33 +1,24 @@
-import React, { FC, useState, useEffect } from 'react'
-import { useHistory, useParams } from 'react-router-dom'
-import { createStyles, makeStyles } from '@material-ui/core/styles'
-import firebase from '../../firebase'
-import { TitleDate } from '../../types/types'
+import React, { FC, useEffect, useState } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
+import { createStyles, makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button'
+
+import firebase from '../firebase'
+import TopHeader from '../components/topPage/topHeader';
+import { TitleDate } from '../types/types';
+import { DialogTitle } from '@material-ui/core';
 
 const useStyles = makeStyles(() => {
     createStyles({
-        root: {
-            display: "flex",
-            flexWrap: "wrap",
-            width: "80%",
-            textAlign: "center",
-            marginTop: "2%",
-        },
-        titleImage: {
-            height: "218px",
-            width: "218px"
-        }
-    })
-});
 
-const ImageItemList: FC = () => {
-    const [data, setData] = useState<TitleDate[]>([]);
-    // このdataに画像データなどが格納される
+    })
+})
+
+const DownloadPage: FC = () => {
     const { keyword } = useParams();
-    // const classes = useStyles();
-    const history = useHistory();
-    // keywordにはindex.tsxのinputで入力された語句がまずurlに表示されそれをuseParams()で取得する
+    const classes = useStyles();
+    const [data, setData] = useState<TitleDate[]>([])
+
     const getData = async (searchWord: string | undefined) => {
         const db = firebase.firestore();
         const titleDataRef = db.collection('titleData');
@@ -48,20 +39,28 @@ const ImageItemList: FC = () => {
     useEffect(() => {
         getData(keyword)
     }, [])
-    // 第二引数にから配列[]を渡すことで更新されても呼び出されずに最初だけ呼ばれるようになる
+
+    const displayImage = () => {
+        return (
+            <div>
+                {data.map((title) => (
+                    <div>
+                        <img src={title.image} alt={title.title} />
+                    </div>
+                ))}
+            </div>
+        )
+    }
 
     return (
         <div>
-            {data.map((title) => (
-                <div>
-                    <Button onClick={() => history.push('/download/'+ title.title)}>
-                        <img src={title.image} alt={title.title} />
-                    </Button>
-                    <h3>{title.title}</h3>
-                </div>
-            ))}
+            {displayImage()}
         </div>
     )
+
 }
 
-export default ImageItemList
+export default DownloadPage
+
+
+
